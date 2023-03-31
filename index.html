@@ -14,6 +14,9 @@
             background-color: #f3f3f3;
         }
         .wrapper {
+            background-image: url('./qinglv.jpg');
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
             max-width: 520px;
             margin: 20px auto;
             padding: 20px;
@@ -45,7 +48,7 @@
             font-weight: 500;
             color: #3a3a3a;
             text-align: center;
-            background-color: #f3f3f3;
+            background-color: rgba(243, 229, 171, 0.8);
             border: none;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -53,29 +56,29 @@
             transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
         }
         button:hover {
-            background-color: #d4d4d4;
+            background-color: rgba(243, 229, 171, 1);
         }
         button:active {
             transform: scale(0.98);
         }
         .operator {
-            background-color: #e6e6e6;
+            background-color: rgba(255, 255, 153, 0.8);
         }
         .operator:hover {
-            background-color: #cccccc;
+            background-color: rgba(255, 255, 153, 1);
         }
         .eval {
-            background-color: #ff9500;
+            background-color: rgb(255, 149, 0, 0.8);
             color: #fff;
         }
         .eval:hover {
-            background-color: #e59400;
+            background-color: rgb(255, 149, 0, 1);
         }
         .clear {
-            background-color: #d9d9d9;
+            background-color: rgba(240, 100, 0, 0.8);
         }
         .clear:hover {
-            background-color: #cccccc;
+            background-color: rgba(240, 100, 0, 1);
         }
         .history {
             font-size: 24px;
@@ -145,10 +148,9 @@
             <button onclick="trigFunc(event, 'tan')">tan</button>
             <button class="eval" onclick="calculate(event)">=</button>
         </div>
-        <div class="history" id="calculator-history"></div>
-        <div class="display-heart1"></div>
     </div>
-
+    <div class="history" id="calculator-history"></div>
+    <div class="display-heart1"></div>
     <script>
         var historyArr = [];
         var isCalculate = false
