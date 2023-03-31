@@ -113,7 +113,7 @@
     <div class="wrapper">
         <div class="display" id="calculator-screen">0</div>
         <div class="btn-grid">
-            <button class="clear" onclick="clearScreen()">C</button>
+            <button class="clear" onclick="clearScreen(event)">C</button>
             <button onclick="updateScreen(event, '(')">(</button>
             <button onclick="updateScreen(event, ')')">)</button>
             <button class="operator" onclick="updateScreen(event, '%')">%</button>
@@ -161,7 +161,8 @@
             }
         }
 
-        function clearScreen() {
+        function clearScreen(e) {
+            aixin(e)
             isCalculate = false
             document.getElementById("calculator-screen").innerText = "0";
         }
