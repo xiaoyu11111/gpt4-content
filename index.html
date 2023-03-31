@@ -82,6 +82,13 @@
             font-weight: 500;
             color: #3a3a3a;
         }
+        .display-heart1 {
+			background-image: url('./love.png');
+            visibility: hidden;
+            display: block;
+			width: 1px;
+			height: 1px;
+        }
         .display-heart {
 			position: absolute;
 			display: block;
@@ -139,6 +146,7 @@
             <button class="eval" onclick="calculate(event)">=</button>
         </div>
         <div class="history" id="calculator-history"></div>
+        <div class="display-heart1"></div>
     </div>
 
     <script>
