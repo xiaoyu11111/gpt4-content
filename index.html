@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>科学计算器</title>
+    <title>方宝宝计算器</title>
     <style>
         * {
             margin: 0;
@@ -22,6 +22,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .display {
+            overflow: auto;
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -81,6 +82,31 @@
             font-weight: 500;
             color: #3a3a3a;
         }
+        .display-heart {
+			position: absolute;
+			display: block;
+			width: 40px;
+			height: 40px;
+            text-align: center;
+            line-height: 40px;
+			background-image: url('./love.png');
+			background-size: contain;
+			background-repeat: no-repeat;
+            animation-name: heart-fade-out;
+			animation-duration: 1.5s;
+			animation-timing-function: linear;
+			animation-fill-mode: forwards;
+		}
+        @keyframes heart-fade-out {
+			0% {
+				transform: translate(-50%, 0);
+				opacity: 1;
+			}
+			100% {
+				transform: translate(-50%, -200px);
+				opacity: 0;
+			}
+		}
     </style>
 </head>
 <body>
@@ -88,29 +114,29 @@
         <div class="display" id="calculator-screen">0</div>
         <div class="btn-grid">
             <button class="clear" onclick="clearScreen()">C</button>
-            <button onclick="updateScreen('(')">(</button>
-            <button onclick="updateScreen(')')">)</button>
-            <button class="operator" onclick="updateScreen('%')">%</button>
-            <button onclick="updateScreen('7')">7</button>
-            <button onclick="updateScreen('8')">8</button>
-            <button onclick="updateScreen('9')">9</button>
-            <button class="operator" onclick="updateScreen('÷')">÷</button>
-            <button onclick="updateScreen('4')">4</button>
-            <button onclick="updateScreen('5')">5</button>
-            <button onclick="updateScreen('6')">6</button>
-            <button class="operator" onclick="updateScreen('×')">×</button>
-            <button onclick="updateScreen('1')">1</button>
-            <button onclick="updateScreen('2')">2</button>
-            <button onclick="updateScreen('3')">3</button>
-            <button class="operator" onclick="updateScreen('-')">-</button>
-            <button onclick="updateScreen('0')">0</button>
-            <button onclick="updateScreen('.')">.</button>
-            <button onclick="backspace()">del</button>
-            <button class="operator" onclick="updateScreen('+')">+</button>
-            <button onclick="trigFunc('sin')">sin</button>
-            <button onclick="trigFunc('cos')">cos</button>
-            <button onclick="trigFunc('tan')">tan</button>
-            <button class="eval" onclick="calculate()">=</button>
+            <button onclick="updateScreen(event, '(')">(</button>
+            <button onclick="updateScreen(event, ')')">)</button>
+            <button class="operator" onclick="updateScreen(event, '%')">%</button>
+            <button onclick="updateScreen(event, '7')">7</button>
+            <button onclick="updateScreen(event, '8')">8</button>
+            <button onclick="updateScreen(event, '9')">9</button>
+            <button class="operator" onclick="updateScreen(event, '÷')">÷</button>
+            <button onclick="updateScreen(event, '4')">4</button>
+            <button onclick="updateScreen(event, '5')">5</button>
+            <button onclick="updateScreen(event, '6')">6</button>
+            <button class="operator" onclick="updateScreen(event, '×')">×</button>
+            <button onclick="updateScreen(event, '1')">1</button>
+            <button onclick="updateScreen(event, '2')">2</button>
+            <button onclick="updateScreen(event, '3')">3</button>
+            <button class="operator" onclick="updateScreen(event, '-')">-</button>
+            <button onclick="updateScreen(event, '0')">0</button>
+            <button onclick="updateScreen(event, '.')">.</button>
+            <button onclick="backspace(event)">del</button>
+            <button class="operator" onclick="updateScreen(event, '+')">+</button>
+            <button onclick="trigFunc(event, 'sin')">sin</button>
+            <button onclick="trigFunc(event, 'cos')">cos</button>
+            <button onclick="trigFunc(event, 'tan')">tan</button>
+            <button class="eval" onclick="calculate(event)">=</button>
         </div>
         <div class="history" id="calculator-history"></div>
     </div>
@@ -118,7 +144,9 @@
     <script>
         var historyArr = [];
         var isCalculate = false
-        function updateScreen(value) {
+        var index = 0
+        function updateScreen(e,value) {
+            aixin(e)
             var arr = ['%', '+', '-', '÷','×']
             if (isCalculate && !arr.includes(value)) {
                 isCalculate = false
@@ -147,7 +175,8 @@
                 historyDiv.appendChild(p);
             }
         }
-        function calculate() {
+        function calculate(e) {
+            aixin(e)
             try {
                 var expression = document.getElementById("calculator-screen").innerText.replace(/×/gi,'*').replace(/÷/gi,'/')
                 var expressionOrigin = document.getElementById("calculator-screen").innerText
@@ -160,12 +189,14 @@
             }
         }
         
-        function backspace() {
+        function backspace(e) {
+            aixin(e)
             isCalculate = false
             var dom = document.getElementById("calculator-screen")
             dom.innerText = dom.innerText.slice(0, -1);
         }
-        function trigFunc(funcName) {
+        function trigFunc(e, funcName) {
+            aixin(e)
             isCalculate = false
             var screen = document.getElementById("calculator-screen");
             if (screen.innerText.includes(funcName + '(')) {
@@ -188,6 +219,20 @@
             }
             screen.innerText = result.toString();
         }
+
+        function aixin(event) {
+			const heartDisplay = document.createElement("div");
+			heartDisplay.classList.add("display-heart");
+            var str = '我爱你方宝宝'
+            heartDisplay.innerText=str[index]
+            index = index + 1 >= str.length ? 0 : index + 1
+			document.body.appendChild(heartDisplay);
+			heartDisplay.style.top = event.clientY + "px";
+			heartDisplay.style.left = event.clientX + "px";
+			setTimeout(function() {
+				heartDisplay.remove();
+			}, 2000);
+		}
     </script>
 </body>
 </html>
