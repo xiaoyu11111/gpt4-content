@@ -1,120 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>高级计算器</title>
-<style>
-body {
-background-color: #f6f6f6;
-font-family: Arial, sans-serif;
-margin: 0;
-padding: 0;
-}
-
-.calculator {
-display: inline-block;
-background-color: #fff;
-border-radius: 5px;
-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-margin: 40px auto;
-padding: 20px;
-text-align: center;
-width: 80%;
-max-width: 400px;
-}
-
-input {
-background-color: #eee;
-border: none;
-border-radius: 5px;
-box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.1);
-color: #444;
-display: block;
-font-size: 36px;
-margin: 0 auto;
-padding: 10px;
-text-align: right;
-width: 80%;
-}
-
-input:focus {
-outline: none;
-}
-
-.button-wrap {
-display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
-margin-top: 20px;
-}
-
-button {
-background-color: #4caf50;
-border: none;
-border-radius: 5px;
-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-color: #fff;
-cursor: pointer;
-font-size: 24px;
-margin: 10px;
-padding: 10px 20px;
-transition: all 0.2s ease-in-out;
-width: 45%;
-}
-
-button:hover {
-background-color: #3e8e41;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科学计算器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f3f3f3;
+        }
+        .wrapper {
+            max-width: 520px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .display {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            height: 85px;
+            font-size: 48px;
+            padding: 0 20px;
+            border-bottom: 1px solid #d4d4d4;
+        }
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 100%;
+            height: 60px;
+            font-size: 24px;
+            font-weight: 500;
+            color: #3a3a3a;
+            text-align: center;
+            background-color: #f3f3f3;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
+        }
+        button:hover {
+            background-color: #d4d4d4;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .operator {
+            background-color: #e6e6e6;
+        }
+        .operator:hover {
+            background-color: #cccccc;
+        }
+        .eval {
+            background-color: #ff9500;
+            color: #fff;
+        }
+        .eval:hover {
+            background-color: #e59400;
+        }
+        .clear {
+            background-color: #d9d9d9;
+        }
+        .clear:hover {
+            background-color: #cccccc;
+        }
+        .history {
+            font-size: 24px;
+            font-weight: 500;
+            color: #3a3a3a;
+        }
+    </style>
 </head>
 <body>
-<div class="calculator">
-<input id="output" type="text" readonly>
-<div class="button-wrap">
-<button onclick="clearOutput()">清空</button>
-<button onclick="evaluate()">=</button>
-<button onclick="append('*')">x</button>
-<button onclick="append('/')">÷</button>
-<button onclick="append('7')">7</button>
-<button onclick="append('8')">8</button>
-<button onclick="append('9')">9</button>
-<button onclick="append('-')">-</button>
-<button onclick="append('4')">4</button>
-<button onclick="append('5')">5</button>
-<button onclick="append('6')">6</button>
-<button onclick="append('+')">+</button>
-<button onclick="append('1')">1</button>
-<button onclick="append('2')">2</button>
-<button onclick="append('3')">3</button>
-<button onclick="append('.')">.</button>
-<button onclick="append('0')">0</button>
-<button onclick="append('(')">(</button>
-<button onclick="append(')')">)</button>
-</div>
-</div>
+    <div class="wrapper">
+        <div class="display" id="calculator-screen">0</div>
+        <div class="btn-grid">
+            <button class="clear" onclick="clearScreen()">C</button>
+            <button onclick="updateScreen('(')">(</button>
+            <button onclick="updateScreen(')')">)</button>
+            <button class="operator" onclick="updateScreen('%')">%</button>
+            <button onclick="updateScreen('7')">7</button>
+            <button onclick="updateScreen('8')">8</button>
+            <button onclick="updateScreen('9')">9</button>
+            <button class="operator" onclick="updateScreen('÷')">÷</button>
+            <button onclick="updateScreen('4')">4</button>
+            <button onclick="updateScreen('5')">5</button>
+            <button onclick="updateScreen('6')">6</button>
+            <button class="operator" onclick="updateScreen('×')">×</button>
+            <button onclick="updateScreen('1')">1</button>
+            <button onclick="updateScreen('2')">2</button>
+            <button onclick="updateScreen('3')">3</button>
+            <button class="operator" onclick="updateScreen('-')">-</button>
+            <button onclick="updateScreen('0')">0</button>
+            <button onclick="updateScreen('.')">.</button>
+            <button onclick="backspace()">del</button>
+            <button class="operator" onclick="updateScreen('+')">+</button>
+            <button onclick="trigFunc('sin')">sin</button>
+            <button onclick="trigFunc('cos')">cos</button>
+            <button onclick="trigFunc('tan')">tan</button>
+            <button class="eval" onclick="calculate()">=</button>
+        </div>
+        <div class="history" id="calculator-history"></div>
+    </div>
 
-<script>
-let output = document.getElementById('output');
-let history = [];
+    <script>
+        var historyArr = [];
+        var isCalculate = false
+        function updateScreen(value) {
+            var arr = ['%', '+', '-', '÷','×']
+            if (isCalculate && !arr.includes(value)) {
+                isCalculate = false
+                document.getElementById("calculator-screen").innerText = value;
+                return
+            }
+            isCalculate = false
+            if (document.getElementById("calculator-screen").innerText === "0") {
+                document.getElementById("calculator-screen").innerText = value;
+            } else {
+                document.getElementById("calculator-screen").innerText += value;
+            }
+        }
 
-function append(value) {
-output.value += value;
-}
+        function clearScreen() {
+            isCalculate = false
+            document.getElementById("calculator-screen").innerText = "0";
+        }
+        function addToHistory(expression) {
+            historyArr.push(expression);
+            var historyDiv = document.getElementById("calculator-history");
+            historyDiv.innerHTML = "";
+            for (var i = historyArr.length - 1; i >= 0; i--) {
+                var p = document.createElement("p");
+                p.innerText = historyArr[i];
+                historyDiv.appendChild(p);
+            }
+        }
+        function calculate() {
+            try {
+                var expression = document.getElementById("calculator-screen").innerText.replace(/×/gi,'*').replace(/÷/gi,'/')
+                var expressionOrigin = document.getElementById("calculator-screen").innerText
+                var result = eval(expression);
+                isCalculate = true
+                document.getElementById("calculator-screen").innerText = (result.toString().includes('.') ? result.toFixed(2) : result).toString();
+                addToHistory(expressionOrigin + " = " + (result.toString().includes('.') ? result.toFixed(2) : result).toString());
+            } catch (error) {
+                // alert(error);
+            }
+        }
+        
+        function backspace() {
+            isCalculate = false
+            var dom = document.getElementById("calculator-screen")
+            dom.innerText = dom.innerText.slice(0, -1);
+        }
+        function trigFunc(funcName) {
+            isCalculate = false
+            var screen = document.getElementById("calculator-screen");
+            if (screen.innerText.includes(funcName + '(')) {
+                screen.innerText = screen.innerText.replace(funcName + '(', '');
+            } else {
+                screen.innerText += funcName + '(';
+            }
+        }
 
-function evaluate() {
-try {
-output.value = eval(output.value);
-history.push(output.value);
-} catch (error) {
-output.value = 'Error';
-}
-}
-
-function clearOutput() {
-output.value = '';
-history = [];
-}
-</script>
+        function factorial() {
+            var screen = document.getElementById("calculator-screen");
+            var num = parseInt(screen.innerText);
+            if (isNaN(num)) {
+                alert("请输入正确的数字");
+                return;
+            }
+            var result = 1;
+            for (var i = 2; i <= num; i++) {
+                result *= i;
+            }
+            screen.innerText = result.toString();
+        }
+    </script>
 </body>
 </html>
